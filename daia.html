@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="de_DE">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="generator" content="pandoc" />
+  <meta name="author" content="Jakob Voß" />
+  <meta name="date" content="2015-04-22" />
+  <title>DAIA Ontology</title>
+  <link rel="alternate" type="application/rdf+xml" href="daia.owl" />
+   <!--[if lt IE 9]>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <style type="text/css">
+  body { font-family: sans-serif; }
+  a { text-decoration: none }
+  a:hover { text-decoration: underline }
+  h1 { font: 170% sans-serif }
+  h1.title { font-size: 200%; font-weight: bold; }
+  h2 { font: 140% sans-serif }
+  h3 { font: 120% sans-serif }
+  dt { font-weight: bold; }
+  h1, h2, h3, h1 a, h2 a, h3 a { color: #005A9C; }
+  table { border-collapse: collapse; }
+  td { border: 1px solid #999; padding: 3px }
+  dl p { margin-top: 0; }
+  dt { margin-top: 0.8em; }
+  dd { margin-left: 1.5em; }
+  ol { margin-bottom: 1em; }
+  table + p { margin-top: 1em; }
+  </style>
+</head>
+<body>
+<a href="http://github.com/gbv/daia-rdf/"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_orange_ff7600.png" alt="Fork me on GitHub"></a>
+<header>
+<h1 class="title">DAIA Ontology</h1>
+<h3 class="author">Jakob Voß</h3>
+<h4 class="date">2015-04-22 (version 0.0.1)</h4>
+</header>
+
+<h1>Table of Contents</h1>
+<nav id="TOC">
+<ul>
+<li><a href="#introduction"><span class="toc-section-number">1</span> Introduction</a></li>
+<li><a href="#overview"><span class="toc-section-number">2</span> Overview</a><ul>
+<li><a href="#namespaces"><span class="toc-section-number">2.1</span> Namespaces</a></li>
+<li><a href="#overview-1"><span class="toc-section-number">2.2</span> Overview</a></li>
+<li><a href="#namespaces-and-ontology"><span class="toc-section-number">2.3</span> Namespaces and Ontology</a></li>
+<li><a href="#classes"><span class="toc-section-number">2.4</span> Classes</a><ul>
+<li><a href="#documents-and-holdings"><span class="toc-section-number">2.4.1</span> Documents and Holdings</a></li>
+<li><a href="#storage"><span class="toc-section-number">2.4.2</span> Storage</a></li>
+<li><a href="#availability"><span class="toc-section-number">2.4.3</span> Availability</a></li>
+</ul></li>
+<li><a href="#properties"><span class="toc-section-number">2.5</span> Properties</a><ul>
+<li><a href="#availablefor"><span class="toc-section-number">2.5.1</span> availableFor</a></li>
+<li><a href="#availableof"><span class="toc-section-number">2.5.2</span> availableOf</a></li>
+<li><a href="#unavailablefor"><span class="toc-section-number">2.5.3</span> unavailableFor</a></li>
+<li><a href="#unavailableof"><span class="toc-section-number">2.5.4</span> unavailableOf</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#references"><span class="toc-section-number">3</span> References</a></li>
+<li><a href="#appendixes"><span class="toc-section-number">4</span> Appendixes</a><ul>
+<li><a href="#relevant-differences-to-daia-0.5"><span class="toc-section-number">4.1</span> Relevant differences to DAIA 0.5</a></li>
+<li><a href="#integrity-rules"><span class="toc-section-number">4.2</span> Integrity rules</a></li>
+<li><a href="#revision-history"><span class="toc-section-number">4.3</span> Revision history</a></li>
+</ul></li>
+</ul>
+</nav>
+<section id="introduction" class="level1">
+<h1><span class="header-section-number">1</span> Introduction</h1>
+<p>The <strong>DAIA Ontology</strong> defines an encoding of document availability information in RDF. The Ontology aligned with <a href="http://gbv.github.io/daiaspec">Document Availability Information API (DAIA)</a>.</p>
+<p>Updates and sources of this document can be found in a public git repository at <a href="http://github.com/gbv/daia-rdf">http://github.com/gbv/daia-rdf</a>. The master file <a href="https://github.com/gbv/daia-rdf/blob/master/daia.md">daia.md</a> is written in <a href="http://johnmacfarlane.net/pandoc/demo/example9/pandocs-markdown.html">Pandoc’s Markdown</a>. PAIA Ontology in <a href="daia.ttl">in RDF/Turtle</a>, <a href="daia.owl">in RDF/XML</a> and this HTML document are generated from the master file with <a href="https://github.com/jakobib/makespec">makespec</a>. The specification can be distributed freely under the terms of CC-BY-SA.</p>
+</section>
+<section id="overview" class="level1">
+<h1><span class="header-section-number">2</span> Overview</h1>
+<p>The Document Availability Information Ontology (DAIA ontology) defines a set of RDF classes and RDF properties to express DAIA data in RDF. RDF data that makes use of DAIA ontology is also referred to as DAIA/RDF.</p>
+<p>The DAIA data model basically consists of abstract documents, concrete holdings of documents, and document services, with an availability status.</p>
+<p>RDF Serializations of DAIA Ontology are available in RDF/Turtle (<a href="./daia.ttl"><strong><code>daia.ttl</code></strong></a>) and in RDF/XML (<a href="./daia.owl"><strong><code>daia.owl</code></strong></a>).</p>
+<section id="namespaces" class="level2">
+<h2><span class="header-section-number">2.1</span> Namespaces</h2>
+<p>The DAIA/RDF Ontology is identified by the URI <a href="http://purl.org/ontology/daia/">http://purl.org/ontology/daia/</a> which is also used URI namespace. Both may be changed to <a href="http://purl.org/ontology/daia#">http://purl.org/ontology/daia#</a>. The namespace prefix <code>daia</code> is recommeded.</p>
+</section>
+<section id="overview-1" class="level2">
+<h2><span class="header-section-number">2.2</span> Overview</h2>
+<p>DAIA ontology is based on the following RDF ontologies:</p>
+<table>
+<colgroup>
+<col style="width: 34%" />
+<col style="width: 27%" />
+<col style="width: 37%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: center;">Ontology</th>
+<th style="text-align: center;">relevant classes</th>
+<th style="text-align: left;">relevant properties</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><a href="http://purl.org/ontology/dso">Document Service Ontology</a> (DSO)</td>
+<td><a href="http://purl.org/ontology/dso#DocumentService">dso:DocumentService</a><br /><a href="http://purl.org/ontology/dso#Loan">dso:Loan</a><br /><a href="http://purl.org/ontology/dso#Presentation">dso:Presentation</a><br /><a href="http://purl.org/ontology/dso#Interloan">dso:Interloan</a><br /><a href="http://purl.org/ontology/dso#OpenAccess">dso:OpenAccess</a><br /></td>
+<td style="text-align: left;">-</td>
+</tr>
+<tr class="even">
+<td>Service Ontology</td>
+<td><a href="http://purl.org/ontology/service#ServiceLimitation">service:ServiceLimitation</a></td>
+<td style="text-align: left;"><a href="http://purl.org/ontology/serviceo#limits">service:limits</a> / <a href="http://purl.org/ontology/service#limitedBy">service:limitedBy</a><br /><a href="http://purl.org/ontology/serviceo#delay">service:delay</a></td>
+</tr>
+<tr class="odd">
+<td><a href="http://dini-ag-kim.github.io/holding-ontology/">Holding Ontology</a></td>
+<td>…</td>
+<td style="text-align: left;">holding:exemplar<br />holding:narrowerExemplar<br />holding:broaderExemplar<br />holding:heldby / holding:holds<br />holding:label<br />…</td>
+</tr>
+<tr class="even">
+<td>FOAF</td>
+<td>foaf:Organization<br /> …</td>
+<td style="text-align: left;">foaf:primaryTopicOf<br />foaf:name<br />…</td>
+</tr>
+<tr class="odd">
+<td>Bibliographic Ontology (bibo)</td>
+<td>bibo:Document</td>
+<td style="text-align: left;">-</td>
+</tr>
+<tr class="even">
+<td>FRBR</td>
+<td>frbr:Item</td>
+<td style="text-align: left;">-</td>
+</tr>
+<tr class="odd">
+<td>DCTerms</td>
+<td>…</td>
+<td style="text-align: left;">dct:description<br />dct:hasPart / dct:isPartOf</td>
+</tr>
+</tbody>
+</table>
+<p>In addition:</p>
+<ul>
+<li><a href="http://www.w3.org/TR/vocab-org/">Organization ontology</a> may be used to refer to organizations and institutions.</li>
+<li>Simple Service Status Ontology (SSSO) should be referred to.</li>
+<li>DAIA should be aligned with <a href="http://schema.org/">Schema.org Ontology</a>.</li>
+</ul>
+<pre class="ditaa"><code>+-----------+     daia:availableFor    +---------------------+
+|           |-------------------------&gt;|                     |
+|           |&lt;-------------------------|                     |
+|           |     daia:availableOf     |                     |
+| frbr:Item |                          | dso:DocumentService |
+|           |    daia:unavailableFor   |                     |
+|           |-------------------------&gt;|                     |
+|           |&lt;-------------------------|                     |
++-----------+    daia:unavailableOf    +---------------------+</code></pre>
+</section>
+<section id="namespaces-and-ontology" class="level2">
+<h2><span class="header-section-number">2.3</span> Namespaces and Ontology</h2>
+<p>The URI namespace of DAIA ontology is <code>http://purl.org/ontology/daia#</code>. The namespace prefix <code>daia</code> is recommended. The URI of DAIA Ontology as as a whole is <a href="http://purl.org/ontology/daia">http://purl.org/ontology/daia</a>.</p>
+<pre><code>@prefix daia: &lt;http://purl.org/ontology/daia#&gt; .
+@base         &lt;http://purl.org/ontology/daia&gt; .</code></pre>
+<p>The following namspace prefixes are used to refer to related ontologies:</p>
+<pre><code>@prefix cc:      &lt;http://creativecommons.org/ns#&gt; .
+@prefix dct:     &lt;http://purl.org/dc/terms/&gt; .
+@prefix dso:     &lt;http://purl.org/ontology/dso#&gt; .
+@prefix holding: &lt;http://purl.org/ontology/holding#&gt; .
+@prefix frbr:    &lt;http://purl.org/vocab/frbr/core#&gt; .
+@prefix owl:     &lt;http://www.w3.org/2002/07/owl#&gt; .
+@prefix rdfs:    &lt;http://www.w3.org/2000/01/rdf-schema#&gt; .
+@prefix ssso:    &lt;http://purl.org/ontology/ssso#&gt; .
+@prefix service: &lt;http://purl.org/ontology/service#&gt; .
+@prefix holding: &lt;http://purl.org/ontology/holding#&gt; .
+@prefix vann:    &lt;http://purl.org/vocab/vann/&gt; .
+@prefix voaf:    &lt;http://purl.org/vocommons/voaf#&gt; .
+@prefix vs:      &lt;http://www.w3.org/2003/06/sw-vocab-status/ns#&gt; .
+@prefix xsd:     &lt;http://www.w3.org/2001/XMLSchema#&gt; .</code></pre>
+<p>In Turtle syntax, the ontology is defined as following:</p>
+<pre><code>&lt;&gt; a owl:Ontology, voaf:Vocabulary ;
+    dct:title &quot;Document Availability Information Ontology&quot;@en ;
+    rdfs:label &quot;DAIA&quot; ;
+    vann:preferredNamespacePrefix &quot;daia&quot; ;
+    vann:preferredNamespaceUri &quot;http://purl.org/ontology/daia#&quot; ;
+    dct:modified &quot;2015-04-22&quot;^^xsd:date ;
+    owl:versionInfo &quot;0.0.1&quot; ;
+    foaf:isPrimaryTopicOf &lt;http://purl.org/NET/DAIA&gt; ;
+    cc:license &lt;http://creativecommons.org/licenses/by/3.0/&gt; ;
+    dct:creator &quot;Jakob Voß&quot; 
+.</code></pre>
+</section>
+<section id="classes" class="level2">
+<h2><span class="header-section-number">2.4</span> Classes</h2>
+<p>DAIA ontology does not define new classes but makes use of classes defined in related ontologies.</p>
+<section id="documents-and-holdings" class="level3">
+<h3><span class="header-section-number">2.4.1</span> Documents and Holdings</h3>
+<p>…</p>
+<pre><code>ssso:ServiceEvent a owl:Class ;
+    rdfs:isDefinedBy &lt;http://purl.org/ontology/ssso&gt; .</code></pre>
+</section>
+<section id="storage" class="level3">
+<h3><span class="header-section-number">2.4.2</span> Storage</h3>
+<p>A storage is a place where items are stored.</p>
+<pre><code>daia:Storage a owl:Class .</code></pre>
+</section>
+<section id="availability" class="level3">
+<h3><span class="header-section-number">2.4.3</span> Availability</h3>
+<p>…</p>
+</section>
+</section>
+<section id="properties" class="level2">
+<h2><span class="header-section-number">2.5</span> Properties</h2>
+<section id="availablefor" class="level3">
+<h3><span class="header-section-number">2.5.1</span> availableFor</h3>
+<pre><code>daia:availableFor a owl:ObjectProperty ;
+    rdfs:label &quot;availableFor&quot;@en ;
+    rdfs:domain frbr:Item ;
+    rdfs:range dso:DocumentService ;
+    owl:inverseOf daia:availableOf ;
+    rdfs:subPropertyOf dso:hasService ;
+    rdfs:seeAlso daia:unavailableFor ;
+    rdfs:isDefinedBy &lt;&gt; ;
+    vs:term_status &quot;testing&quot; .</code></pre>
+</section>
+<section id="availableof" class="level3">
+<h3><span class="header-section-number">2.5.2</span> availableOf</h3>
+<pre><code>daia:availableOf a owl:ObjectProperty ;
+    rdfs:label &quot;availableOf&quot;@en ;
+    rdfs:domain dso:DocumentService ;
+    rdfs:range frbr:Item ;
+    owl:inverseOf daia:availableFor ;
+    rdfs:subPropertyOf dso:hasDocument ;
+    rdfs:seeAlso daia:unavailableOf ;
+    rdfs:isDefinedBy &lt;&gt; ;
+    vs:term_status &quot;testing&quot; .</code></pre>
+</section>
+<section id="unavailablefor" class="level3">
+<h3><span class="header-section-number">2.5.3</span> unavailableFor</h3>
+<pre><code>daia:unavailableFor a owl:ObjectProperty ;
+    rdfs:label &quot;unavailableFor&quot;@en ;
+    rdfs:domain frbr:Item ;
+    rdfs:range dso:DocumentService ;
+    owl:inverseOf daia:unavailableOf ;
+    rdfs:subPropertyOf dso:hasService ;
+    rdfs:seeAlso daia:availableFor ;
+    rdfs:isDefinedBy &lt;&gt; ;
+    vs:term_status &quot;testing&quot; .</code></pre>
+</section>
+<section id="unavailableof" class="level3">
+<h3><span class="header-section-number">2.5.4</span> unavailableOf</h3>
+<pre><code>daia:unavailableOf a owl:ObjectProperty ;
+    rdfs:label &quot;unavailableOf&quot;@en ;
+    rdfs:domain dso:DocumentService ;
+    rdfs:range frbr:Item ;
+    owl:inverseOf daia:unavailableOf ;
+    rdfs:subPropertyOf dso:hasDocument ;
+    rdfs:seeAlso daia:availableOf ;
+    rdfs:isDefinedBy &lt;&gt; ;
+    vs:term_status &quot;testing&quot; .</code></pre>
+</section>
+</section>
+</section>
+<section id="references" class="level1">
+<h1><span class="header-section-number">3</span> References</h1>
+<ul>
+<li><strong>[DSO]</strong> <a href="http://purl.org/ontology/dso">Document Service Ontology</a> Work in Progress 2013 June 1999 (RFC 2616).</li>
+<li><strong>[HOLDINGS]</strong> <a href="http://dini-ag-kim.github.io/holding-ontology/">Holding Ontology</a> Work in progress 2013</li>
+<li><strong>[SSSO]</strong> <a href="http://purl.org/ontology/ssso">Simple Service Status Ontology</a> Work in Progress 2013</li>
+<li><strong>[URI]</strong> <a href="http://tools.ietf.org/html/rfc2396">Uniform Resource Identifiers (URI): Generic Syntax</a>. August 1998 (RFC 2396).</li>
+</ul>
+</section>
+<section id="appendixes" class="level1">
+<h1><span class="header-section-number">4</span> Appendixes</h1>
+<p>The following appendixes are informative only.</p>
+<section id="relevant-differences-to-daia-0.5" class="level2">
+<h2><span class="header-section-number">4.1</span> Relevant differences to DAIA 0.5</h2>
+<p>The main difference of this specification to DAIA 0.5 is the inclusion of DAIA/RDF which was formerly defined in a separate document. Major parts of the DAIA ontology have been moved to independent micro-ontologies, involving the change of URIs. In particular, DAIA services are now defined in the Document Service Ontology. The following URIs are deprecated:</p>
+<p>Removed:</p>
+<ul>
+<li><a href="http://purl.org/ontology/daia/Response">http://purl.org/ontology/daia/Response</a></li>
+<li><a href="http://purl.org/ontology/daia/timestamp">http://purl.org/ontology/daia/timestamp</a></li>
+</ul>
+<p>Moved to <a href="http://purl.org/ontology/dso">Document Service Ontology</a> (DSO):</p>
+<ul>
+<li><a href="http://purl.org/ontology/daia/Service">http://purl.org/ontology/daia/Service</a> moved to <a href="http://purl.org/ontology/dso#DocumentService">http://purl.org/ontology/dso#DocumentService</a></li>
+<li><a href="http://purl.org/ontology/daia/Service/Openaccess">http://purl.org/ontology/daia/Service/Openaccess</a> moved to <a href="http://purl.org/ontology/dso#Openaccess">http://purl.org/ontology/dso#Openaccess</a></li>
+<li><a href="http://purl.org/ontology/daia/Service/Interloan">http://purl.org/ontology/daia/Service/Interloan</a> moved to <a href="http://purl.org/ontology/dso#Interloan">http://purl.org/ontology/dso#Interloan</a></li>
+<li><a href="http://purl.org/ontology/daia/Service/Loan">http://purl.org/ontology/daia/Service/Loan</a> moved to <a href="http://purl.org/ontology/dso#Loan">http://purl.org/ontology/dso#Loan</a></li>
+<li><a href="http://purl.org/ontology/daia/Service/Presentation">http://purl.org/ontology/daia/Service/Presentation</a> moved to <a href="http://purl.org/ontology/dso#Presentation">http://purl.org/ontology/dso#Presentation</a></li>
+</ul>
+<p>Moved to <a href="http://purl.org/ontology/ssso">Simple Service Status Ontology</a> (SSSO):</p>
+<ul>
+<li><a href="http://purl.org/ontology/daia/provides">http://purl.org/ontology/daia/provides</a> moved to <a href="http://purl.org/ontology/ssso#provides">http://purl.org/ontology/ssso#provides</a></li>
+<li><a href="http://purl.org/ontology/daia/providedBy">http://purl.org/ontology/daia/providedBy</a> moved to <a href="http://purl.org/ontology/ssso#providedBy">http://purl.org/ontology/ssso#providedBy</a></li>
+<li><a href="http://purl.org/ontology/daia/Limitation">http://purl.org/ontology/daia/Limitation</a> moved to <a href="http://purl.org/ontology/ssso#ServiceLimitation">http://purl.org/ontology/ssso#ServiceLimitation</a></li>
+<li><a href="http://purl.org/ontology/daia/limits">http://purl.org/ontology/daia/limits</a> moved to <a href="http://purl.org/ontology/ssso#limits">http://purl.org/ontology/ssso#limits</a></li>
+<li><a href="http://purl.org/ontology/daia/limitedBy">http://purl.org/ontology/daia/limitedBy</a> moved to <a href="http://purl.org/ontology/ssso#limitedBy">http://purl.org/ontology/ssso#limitedBy</a></li>
+<li><a href="http://purl.org/ontology/daia/queue">http://purl.org/ontology/daia/queue</a> moved to <a href="http://purl.org/ontology/ssso#queue">http://purl.org/ontology/ssso#queue</a></li>
+<li><a href="http://purl.org/ontology/daia/delay">http://purl.org/ontology/daia/delay</a> and <a href="http://purl.org/ontology/daia/expected">http://purl.org/ontology/daia/expected</a> moved to <a href="http://purl.org/ontology/ssso#delay">http://purl.org/ontology/ssso#delay</a></li>
+</ul>
+<p>Moved to <a href="http://dini-ag-kim.github.io/holding-ontology/">Holding Ontology</a>:</p>
+<ul>
+<li><a href="http://purl.org/ontology/daia/exemplar">http://purl.org/ontology/daia/exemplar</a> moved to …</li>
+<li><a href="http://purl.org/ontology/daia/exemplarOf">http://purl.org/ontology/daia/exemplarOf</a> moved to …</li>
+<li><a href="http://purl.org/ontology/daia/narrowerExemplar">http://purl.org/ontology/daia/narrowerExemplar</a> moved to …</li>
+<li><a href="http://purl.org/ontology/daia/narrowerExemplarOf">http://purl.org/ontology/daia/narrowerExemplarOf</a> moved to …</li>
+<li><a href="http://purl.org/ontology/daia/broaderExemplar">http://purl.org/ontology/daia/broaderExemplar</a> moved to …</li>
+<li><a href="http://purl.org/ontology/daia/broaderExemplarOf">http://purl.org/ontology/daia/broaderExemplarOf</a> moved to …</li>
+<li><a href="http://purl.org/ontology/daia/holds">http://purl.org/ontology/daia/holds</a> moved to …</li>
+<li><a href="http://purl.org/ontology/daia/heldBy">http://purl.org/ontology/daia/heldBy</a> moved to …</li>
+<li><a href="http://purl.org/ontology/daia/label">http://purl.org/ontology/daia/label</a> moved to …</li>
+</ul>
+<p>Nur sure about:</p>
+<ul>
+<li>daia:collectedBy, daia:inCollection (?) to connect holding institution/agent and abstract document which holding is exemplar of.</li>
+<li>daia:Storage maybe to be replaced by dct:Location, geo:SpatialThing or similar (?)</li>
+</ul>
+<p>DAIA Ontology</p>
+<ul>
+<li><p>daia:perform, daia:baseURL … (?)</p></li>
+<li><a href="http://purl.org/ontology/daia/availableOf">http://purl.org/ontology/daia/availableOf</a> changed to <a href="http://purl.org/ontology/daia#availableOf">http://purl.org/ontology/daia#availableOf</a>.</li>
+<li><a href="http://purl.org/ontology/daia/availableFor">http://purl.org/ontology/daia/availableFor</a> changed to <a href="http://purl.org/ontology/daia#availableFor">http://purl.org/ontology/daia#availableFor</a>.</li>
+<li><a href="http://purl.org/ontology/daia/unavailableOf">http://purl.org/ontology/daia/unavailableOf</a> changed to <a href="http://purl.org/ontology/daia#unavailableOf">http://purl.org/ontology/daia#unavailableOf</a>.</li>
+<li><p><a href="http://purl.org/ontology/daia/unavailableFor">http://purl.org/ontology/daia/unavailableFor</a> changed to <a href="http://purl.org/ontology/daia#unavailableFor">http://purl.org/ontology/daia#unavailableFor</a>.</p></li>
+</ul>
+</section>
+<section id="integrity-rules" class="level2">
+<h2><span class="header-section-number">4.2</span> Integrity rules</h2>
+<p>If department and institution have same id, the department SHOULD be ignored.</p>
+</section>
+<section id="revision-history" class="level2">
+<h2><span class="header-section-number">4.3</span> Revision history</h2>
+<ul>
+<li><a href="daia-5b148c6.html"><code>2015-04-22 14:57:58 +0200</code></a>: <a href="http://github.com/gbv/daia-rdf/commit/5b148c67800bb4df83ea652ff1e4d23281bfe20c">split from DAIA specification</a></li>
+</ul>
+</section>
+</section>
+</body>
+</html>
