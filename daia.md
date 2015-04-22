@@ -222,6 +222,131 @@ A storage is a place where items are stored.
 
 The following appendixes are informative only.
 
+## Notes and examples
+
+* A DAIA response in  DAIA/RDF consists of an RDF graph without root element.
+
+Examples of DAIA/JSON to DAIA/RDF mappings:
+
+DAIA/JSON
+  : ~~~ {.json}
+    {
+      "version" : "0.5",
+      "schema" : "http://ws.gbv.de/daia/",
+      "timestamp" : "2009-06-09T15:39:52.831+02:00",
+      "institution" : { }
+    }
+    ~~~
+DAIA/RDF
+  : ~~~ {.turtle}
+    # In DAIA/RDF there is no timestamp unless one uses N-Quads or reification
+    [ ] a foaf:Organization .
+    ~~~
+DAIA/JSON
+  : ~~~ {.json}
+    {
+      "document" : [ {
+        "href" : "https://kataloge.uni-hamburg.de/DB=1/PPNSET?PPN=57793371X",
+        "id" : "gvk:ppn:57793371X",
+        "item" : [ {  }, {  }, {  } ]
+      } ]
+    }
+    ~~~
+DAIA/RDF
+  : ~~~ {.turtle}
+    <gvk:ppn:57793371X> a bibo:Document ;
+      foaf:primaryTopicOf <https://kataloge.uni-hamburg.de/DB=1/PPNSET?PPN=57793371X> ;
+      holding:exemplar [ ], [ ], [ ] .
+    ~~~
+DAIA/JSON
+  : ~~~ {.json}
+    {
+        "item" : [ {
+          "id" : "id:123",
+          "message" : [ { "lang": "en", "content": "foo" } ],
+          "department" : { "id": "id:abc" },
+          "label" : "bar",
+          "available" : [ {"service" : "presentation"}, 
+                          {"service" : "loan"}, 
+                          {"service" : "interloan"} ],
+          "unavailable" : [ {"service" : "openaccess"} ]
+        } ]
+    }
+    ~~~
+DAIA/RDF
+  : ~~~ {.turtle}
+    <id:123> a frbr:Item ;
+      dct:description "foo"@en ; 
+      holding:label "bar" ;
+      holding:heldBy <id:abc> ;
+      daia:availableFor [ a dso:Presentation ] ;
+      daia:availableFor [ a dso:Loan ] ;
+      daia:availableFor [ a dso:Interloan ] ;
+      daia:unavailableFor [ a dso:Openaccess ] ;
+    <id:abc> a foaf:Organization ; dct:isPartOf [
+      a foaf:Organization ; dct:hasPart <id:abc> ] .
+    ~~~
+
+In DAIA/RDF, an Item element corresponds to an instance of
+[frbr:Item](http://purl.org/vocab/frbr/core#Item). 
+
+
+DAIA/JSON
+  : ~~~ {.json}
+    { 
+      "available": [ { "service":"loan", "delay":"PT2H" 
+    }
+    ~~~
+DAIA/RDF
+  : ~~~ {.turtle}
+    [ ] daia:availableFor [
+      a dso:Loan ;
+      service:delay "PT2H"^^xsd:duration 
+    ] .
+    ~~~
+DAIA/JSON
+  : ~~~ {.json}
+    {
+        "unavailable": [ {
+          "service":"presentation",
+          "delay":"PT4H"
+        } ]
+    }
+    ~~~
+DAIA/RDF
+  : ~~~ {.turtle}
+    [ ] daia:unavailableFor [
+      a dso:Presentation ;
+      service:delay "PT4H"^^xsd:duration 
+    ] .
+    ~~~
+DAIA/JSON
+  : ~~~ {.json}
+    {
+        "institution" : { "href" : "http://www.tib.uni-hannover.de/" }
+        ...
+        "department" : { 
+                         "id" : "info:isil/DE-7-022",
+                         "content" : "Library of the Geographical Institute, Goettingen University"
+                       }
+        ...
+        "limitation"  : { "content" : "3 day loan" }
+    }
+    ~~~
+DAIA/RDF
+  : ~~~ {.turtle}
+    [ ] a foaf:Organization ;
+        foaf:homepage <http://www.tib.uni-hannover.de/> .
+
+    <info:isil/DE-7-022> a foaf:Organization ;
+        foaf:name "Library of the Geographical Institute, Goettingen University"@en .
+
+    [ ] a service:ServiceLimitation ;
+        schema:name "3 day loan" . # TODO: schema:name (???)
+    ~~~
+
+<!-- schema:name? rdfs:label? subclass of service:ServiceLimitation? -->
+
 ## Relevant differences to DAIA 0.5
 
 The main difference of this specification to DAIA 0.5 is the inclusion of
